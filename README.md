@@ -172,6 +172,131 @@ This system was designed with **defense-in-depth** — the AI never has unsuperv
 
 ---
 
+## 🐳 Docker Deep Dive
+
+The system runs as **3 isolated Docker containers** orchestrated with Docker Compose. Each container follows least-privilege principles: non-root users, dropped Linux capabilities, and minimal filesystem access.
+
+### Container 1: Scraper
+
+| Setting | Value |
+|---------|-------|
+| **Base Image** | `python:3.11-slim` |
+| **User** | `scraper` (UID 1001) |
+| **Entry Point** | `scraper.py` |
+| **Network** | `scraper_net` (bridge, external access for NewsAPI) |
+| **Capabilities** | `cap_drop: ALL`, `cap_add: NET_RAW` (DNS only) |
+| **Health Check** | Every 60s — verifies `requests` module is importable |
+
+**Volumes:**
+- `news_data:/data` (read-write) — writes scraped articles here
+- `./scraper/config.yaml:/app/config.yaml` (read-only) — source configuration
+
+**What it can access:** NewsAPI, RSS feeds. **What it cannot:** LLM APIs, social media APIs, draft storage.
+
+---
+
+### Container 2: Writer
+
+| Setting | Value |
+|---------|-------|
+| **Base Image** | `python:3.11-slim` |
+| **User** | `clawdbot` (UID 1000) |
+| **Entry Point** | `writer.py` |
+| **Network** | `writer_net` (bridge, **internal: true** — no external access except whitelisted) |
+| **Capabilities** | `cap_drop: ALL` |
+| **Root FS** | `read_only: true` — only `/tmp` (tmpfs) is writable |
+| **Health Check** | Every 30s |
+
+**Volumes:**
+- `news_data:/data/news` (**read-only**) — can only read scraped news
+- `drafts:/data/drafts` (read-write) — writes generated drafts
+- `rag_data:/app/rag` (**read-only**) — style reference corpus
+
+**What it can access:** Gemini API (via network whitelist). **What it cannot:** Twitter API, LinkedIn API, Slack API, or anything beyond the LLM endpoint.
+
+> The Writer is the most heavily sandboxed container. Even if the AI model were compromised, it physically cannot reach social media APIs — the network firewall blocks all traffic except `generativelanguage.googleapis.com`.
+
+---
+
+### Container 3: Publisher
+
+| Setting | Value |
+|---------|-------|
+| **Base Image** | `python:3.11-slim` |
+| **User** | `publisher` (UID 1002) |
+| **Entry Point** | `webhook_receiver.py` (Flask on port 5000) |
+| **Network** | `publisher_net` (bridge, external access for Slack/Twitter/LinkedIn) |
+| **Capabilities** | `cap_drop: ALL`, `cap_add: NET_RAW` |
+| **Exposed Port** | `5000` — Flask webhook receiver |
+| **Health Check** | Every 30s — `curl http://localhost:5000/health` |
+
+**Volumes:**
+- `drafts:/data/drafts` (**read-only**) — reads approved drafts
+- `approved:/data/approved` (read-write) — stores posting confirmations
+
+**What it can access:** Slack API, Twitter API, LinkedIn API. **What it cannot:** Modify drafts, access the LLM, or change news data.
+
+---
+
+### Volume Architecture
+
+```
+news_data ──────► Scraper (RW)  ──► Writer (RO)
+drafts ─────────► Writer (RW)   ──► Publisher (RO)
+approved ───────► Publisher (RW)
+rag_data ───────► Writer (RO)
+```
+
+Data flows **one direction only** — the Scraper writes news, the Writer reads news and writes drafts, and the Publisher reads drafts. No container can write to a volume it shouldn't.
+
+### Network Isolation
+
+```
+┌─────────────────────────────────────────────────┐
+│  scraper_net (bridge)                           │
+│  ✅ NewsAPI, RSS feeds                          │
+│  ❌ LLM, Social APIs                            │
+└─────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────┐
+│  writer_net (bridge, internal: true)            │
+│  Subnet: 172.28.0.0/16                          │
+│  ✅ generativelanguage.googleapis.com (443)     │
+│  ❌ Everything else (iptables DROP)              │
+└─────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────┐
+│  publisher_net (bridge)                         │
+│  ✅ Slack, Twitter, LinkedIn                    │
+│  Exposed: port 5000 (webhook receiver)          │
+└─────────────────────────────────────────────────┘
+```
+
+### Firewall Rules (`firewall/setup_iptables.sh`)
+
+An iptables script that locks down the Writer container's network:
+
+```bash
+# Apply rules (restrict writer to LLM API only)
+sudo bash firewall/setup_iptables.sh apply
+
+# Check current rules
+sudo bash firewall/setup_iptables.sh status
+
+# Test connectivity (verifies twitter/linkedin are blocked)
+sudo bash firewall/setup_iptables.sh test
+
+# Remove all rules
+sudo bash firewall/setup_iptables.sh remove
+```
+
+The `test` command runs connectivity checks from inside the Writer container:
+- ✅ `api.anthropic.com` → REACHABLE (expected)
+- ✅ `api.twitter.com` → BLOCKED (expected)
+- ✅ `api.linkedin.com` → BLOCKED (expected)
+
+---
+
 ## 🚀 Quick Start
 
 ### Prerequisites

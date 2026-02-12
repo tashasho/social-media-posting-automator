@@ -1,0 +1,15 @@
+.env
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+data/drafts/*
+data/approved/*
+data/news/latest.json
+!data/news/.gitkeep
+!data/drafts/.gitkeep
+!data/approved/.gitkeep
+*.log
+.DS_Store
+venv/
+.venv/

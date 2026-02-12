@@ -1,0 +1,54 @@
+# ClawdBot Scraper Configuration
+# ──────────────────────────────
+
+# News API sources
+news_api:
+  enabled: true
+  base_url: "https://newsapi.org/v2/everything"
+  # Keywords to search for (OR logic)
+  keywords:
+    - "venture capital"
+    - "startup funding"
+    - "Series A"
+    - "seed round"
+    - "tech IPO"
+    - "artificial intelligence startups"
+    - "fintech"
+    - "SaaS"
+  # Filter by domains (optional)
+  domains:
+    - "techcrunch.com"
+    - "bloomberg.com"
+    - "reuters.com"
+    - "theinformation.com"
+  language: "en"
+  sort_by: "publishedAt"
+  page_size: 10
+
+# RSS feed sources (free, no API key needed)
+rss_feeds:
+  enabled: true
+  feeds:
+    - name: "TechCrunch Startups"
+      url: "https://techcrunch.com/category/startups/feed/"
+    - name: "Hacker News Best"
+      url: "https://hnrss.org/best"
+    - name: "a16z Blog"
+      url: "https://a16z.com/feed/"
+    - name: "First Round Review"
+      url: "https://review.firstround.com/feed.xml"
+    - name: "Y Combinator Blog"
+      url: "https://www.ycombinator.com/blog/rss/"
+
+# Scheduling
+schedule:
+  # Run every N hours
+  interval_hours: 6
+  # Maximum articles to keep per run
+  max_articles: 20
+
+# Output
+output:
+  path: "/data/latest.json"
+  # Keep history for N days
+  history_days: 7

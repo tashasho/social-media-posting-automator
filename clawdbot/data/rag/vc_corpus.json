@@ -1,0 +1,134 @@
+{
+  "version": "1.0",
+  "generated_at": "2026-02-12T19:11:42.265611",
+  "total_examples": 15,
+  "categories": [
+    "founder_advice",
+    "tech_analysis",
+    "market_trends",
+    "leadership",
+    "fundraising"
+  ],
+  "examples": [
+    {
+      "text": "The best founders I've met share one trait: they're obsessed with the problem, not the solution. They'll pivot five times before finding product-market fit, and they won't lose sleep over it.",
+      "author": "paulg",
+      "author_name": "Paul Graham",
+      "platform": "twitter",
+      "engagement": 1523,
+      "category": "founder_advice"
+    },
+    {
+      "text": "We're seeing a fundamental shift from 'growth at all costs' to 'efficient growth.' Unit economics matter again. The best companies never forgot this.",
+      "author": "jasonlk",
+      "author_name": "Jason Lemkin",
+      "platform": "twitter",
+      "engagement": 847,
+      "category": "market_trends"
+    },
+    {
+      "text": "AI won't replace founders. But founders who use AI will replace those who don't. The leverage from intelligent tools is the biggest step change since cloud computing.",
+      "author": "garrytan",
+      "author_name": "Garry Tan",
+      "platform": "twitter",
+      "engagement": 2104,
+      "category": "tech_analysis"
+    },
+    {
+      "text": "The hardest thing about building a marketplace is that you need both sides to show up at the same time. The trick? Start with the supply side and give them a reason to stay before demand arrives.",
+      "author": "sarahtavel",
+      "author_name": "Sarah Tavel",
+      "platform": "twitter",
+      "engagement": 612,
+      "category": "founder_advice"
+    },
+    {
+      "text": "Seed-stage valuations have compressed 30-40% from 2021 peaks. This is healthy. The companies being built right now will be stronger for having raised at rational prices.",
+      "author": "eladgil",
+      "author_name": "Elad Gil",
+      "platform": "twitter",
+      "engagement": 934,
+      "category": "market_trends"
+    },
+    {
+      "text": "The internet made distribution free. AI is making creation free. The next wave of billion-dollar companies will be built by two-person teams.",
+      "author": "alexisohanian",
+      "author_name": "Alexis Ohanian",
+      "platform": "twitter",
+      "engagement": 3201,
+      "category": "tech_analysis"
+    },
+    {
+      "text": "Specific knowledge is found by pursuing your genuine curiosity and passion rather than whatever is hot right now. Building on the intersection of your unique skills is an unfair advantage.",
+      "author": "naval",
+      "author_name": "Naval Ravikant",
+      "platform": "twitter",
+      "engagement": 4500,
+      "category": "leadership"
+    },
+    {
+      "text": "The most underrated founder skill: the ability to write clearly. If you can't explain your product in one sentence, you don't understand it well enough.",
+      "author": "paulg",
+      "author_name": "Paul Graham",
+      "platform": "twitter",
+      "engagement": 2890,
+      "category": "founder_advice"
+    },
+    {
+      "text": "Enterprise SaaS is entering its third wave: Wave 1 was 'move to cloud.' Wave 2 was 'automate workflows.' Wave 3 is 'AI agents that replace workflows entirely.'",
+      "author": "jasonlk",
+      "author_name": "Jason Lemkin",
+      "platform": "linkedin",
+      "engagement": 1200,
+      "category": "tech_analysis"
+    },
+    {
+      "text": "90% of fundraising is done before the first meeting. Your warm intro, your traction, your story \u2014 the pitch deck is just the vehicle, not the engine.",
+      "author": "garrytan",
+      "author_name": "Garry Tan",
+      "platform": "twitter",
+      "engagement": 1750,
+      "category": "fundraising"
+    },
+    {
+      "text": "After a decade of investing, I've learned that the best metric for predicting startup success isn't revenue growth \u2014 it's the quality of the first 10 hires.",
+      "author": "sarahtavel",
+      "author_name": "Sarah Tavel",
+      "platform": "linkedin",
+      "engagement": 890,
+      "category": "founder_advice"
+    },
+    {
+      "text": "The 'AI wrapper' criticism misses the point entirely. Every great software company is a 'wrapper' around some technology. Salesforce wrapped databases. Stripe wrapped payments. The wrapper IS the product.",
+      "author": "andrewchen",
+      "author_name": "Andrew Chen",
+      "platform": "twitter",
+      "engagement": 3400,
+      "category": "tech_analysis"
+    },
+    {
+      "text": "B2B startups: your first 10 customers should feel like co-developers. If they're not on a Slack channel with your engineers, you're building in the dark.",
+      "author": "jasonlk",
+      "author_name": "Jason Lemkin",
+      "platform": "twitter",
+      "engagement": 670,
+      "category": "founder_advice"
+    },
+    {
+      "text": "Capital efficiency is back. The companies raising $3M to get to $1M ARR will outperform those who raised $30M to get to $5M ARR. The math just works.",
+      "author": "eladgil",
+      "author_name": "Elad Gil",
+      "platform": "twitter",
+      "engagement": 1100,
+      "category": "fundraising"
+    },
+    {
+      "text": "Mobile is mature. Cloud is mature. AI is the last major platform shift for a decade. The window for building generational companies is open NOW \u2014 and it will close faster than people think.",
+      "author": "benedictevans",
+      "author_name": "Benedict Evans",
+      "platform": "twitter",
+      "engagement": 2600,
+      "category": "market_trends"
+    }
+  ]
+}
